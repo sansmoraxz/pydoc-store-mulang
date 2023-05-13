@@ -42,6 +42,7 @@ jobs:
         run: |
           poetry config --local virtualenvs.in-project true
           poetry config --local virtualenvs.path .venv
+          poetry config --local virtualenvs.options.always-copy true
 
         # https://github.com/actions/setup-python
       - name: Setup python

@@ -4,4 +4,4 @@ FROM nvidia/cuda:11.6.2-base-ubuntu20.04
 ARG WORKDIR
 WORKDIR ${WORKDIR}
 COPY . .
-ENTRYPOINT [ "./.venv/bin/python", " --version"]
+ENTRYPOINT [ "bash"]
