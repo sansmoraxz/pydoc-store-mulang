@@ -1,13 +1,21 @@
 [tool.poetry]
-name = "pydoc-store-mulang"
+name = "pydoc_store_mulang"
 version = "0.0.1"
 description = "Document database with natural language queries"
 authors = ["sansmoraxz <souyamadebnath@outlook.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "~3.11"
 pymilvus = "^2.2.0"
+towhee = "^0.9.0"
+towhee-models = "^0.9.0"
+sentence-transformers = "^2.2.2"
+fastapi = "^0.96.0"
+uvicorn = "^0.22.0"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.23.1"
 
 [build-system]
 requires = ["poetry-core"]
