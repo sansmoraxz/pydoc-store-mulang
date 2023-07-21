@@ -1,6 +1,6 @@
 ARG WORKDIR="/app"
 
-FROM python:3.11-buster as builder
+FROM python:3.10-buster as builder
 ARG WORKDIR
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
