@@ -10,9 +10,12 @@ python = "~3.10"
 fastapi = "^0.96.0"
 uvicorn = {extras = ["standard"], version = "^0.23.1"}
 docarray = {extras = ["milvus"], version = ">=0.21.0,<0.22.0"}
+easyocr = "^1.7.0"
+jina = "^3.19.1"
+transformers = "^4.31.0"
 
 [tool.poetry.group.dev.dependencies]
-ipykernel = "^6.23.1"
+jupyterlab = "^4.0.3"
 
 [build-system]
 requires = ["poetry-core"]
