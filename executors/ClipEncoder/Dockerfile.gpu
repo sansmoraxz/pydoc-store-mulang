@@ -2,15 +2,26 @@ ARG UBUNTU_VERSION=20.04
 ARG CUDA_VERSION=11.3.1
 ARG CUDNN_VERSION=8
 
+FROM python:3.10-slim-buster as base
+WORKDIR /workdir
+# create virtual environment
+RUN python -m venv venv
+RUN . venv/bin/activate
+
+# install dependencies
+COPY requirements.txt requirements.txt
+COPY pyproject.toml pyproject.toml
+RUN pip install --default-timeout=1000 --compile .
+COPY . .
+
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn${CUDNN_VERSION}-runtime-ubuntu${UBUNTU_VERSION}
 RUN apt-get update && apt-get install --no-install-recommends -y gcc libc6-dev git
 
 WORKDIR /workdir
 
-COPY requirements.txt requirements.txt
-COPY pyproject.toml pyproject.toml
-RUN pip install --default-timeout=1000 --compile .
-
-COPY . /workdir/
+# copy from base
+COPY --from=base /workdir/pyproject.toml pyproject.toml
+COPY --from=base /workdir/requirements.txt requirements.txt
+COPY --from=base /workdir/venv venv
 
 ENTRYPOINT ["jina", "executor", "--uses", "config.yml"]
