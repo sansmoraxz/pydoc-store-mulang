@@ -2,6 +2,9 @@ name: Build executors
 
 on:
   push:
+    paths:
+      - 'executors/**'
+      - '.github/workflows/build-executors.yml'
 
 env:
   REGISTRY: ghcr.io
