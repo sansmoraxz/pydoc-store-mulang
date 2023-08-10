@@ -1,0 +1,8 @@
+jtype: ClipEncoder
+py_modules:
+  - executor.py
+metas:
+  name: ClipEncoder
+  description: Encoder that embeds documents using either the CLIP vision encoder or the CLIP text encoder, depending on the content type of the document.
+  url: https://github.com/sansmoraxz/pydoc-store-mulang
+  keywords: ['encoder', ' text', ' image', ' transformer', ' PyTorch']

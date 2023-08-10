@@ -1,3 +1,5 @@
+# Orignal Repo:
+# https://github.com/jina-ai/executor-clip-encoder
 from copy import deepcopy
 from typing import Any, Dict, Optional, Sequence
 

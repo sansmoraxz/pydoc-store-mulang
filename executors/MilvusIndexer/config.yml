@@ -1,0 +1,8 @@
+jtype: MilvusIndexer
+py_modules:
+  - executor.py
+metas:
+  name: MilvusIndexer
+  description: MilvusIndexer indexes Documents in a Milvus server using DocumentArray with `storage='milvus'`
+  url: https://github.com/sansmoraxz/pydoc-store-mulang
+  keywords: ['indexer', ' vectordb', 'ann', ' similarity_search', ' milvus']
