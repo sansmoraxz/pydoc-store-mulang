@@ -1,0 +1,77 @@
+name: Build executors
+
+on:
+  push:
+
+env:
+  REGISTRY: ghcr.io
+  REPO_NAME: ${{ github.repository }}
+
+defaults:
+  run:
+    working-directory: ./executors
+
+jobs:
+  generate-build-matrices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            executors
+      - name: List executors
+        id: list-executors
+        run: |-
+          echo "executors=$(ls \
+          | jq -R -s -c 'split("\n")[:-1]')" >> "$GITHUB_OUTPUT"
+    outputs:
+      executors: ${{ steps.list-executors.outputs.executors }}
+
+  build:
+    needs: ['generate-build-matrices']
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    name: Build executors
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        executor: ${{ fromJson(needs.generate-build-matrices.outputs.executors) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            executors
+
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/executor-${{ matrix.executor }}
+      - name: Print current context
+        run: ls -la
+      - name: Build and push
+        id: build-and-push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./executors/${{ matrix.executor }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          file: ./executors/${{ matrix.executor }}/Dockerfile.gpu
+          cache-to: type=gha,mode=min
