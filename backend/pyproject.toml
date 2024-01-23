@@ -15,7 +15,7 @@ jina = "^3.19.1"
 transformers = "^4.31.0"
 
 [tool.poetry.group.dev.dependencies]
-jupyterlab = "^4.0.3"
+jupyterlab = "^4.0.11"
 
 [build-system]
 requires = ["poetry-core"]
